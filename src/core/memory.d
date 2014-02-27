@@ -90,6 +90,7 @@ private
     extern (C) void gc_disable() nothrow;
     extern (C) void gc_collect() nothrow;
     extern (C) void gc_minimize() nothrow;
+    extern (C) bool gc_running() nothrow;
 
     extern (C) uint gc_getAttr( void* p ) pure nothrow;
     extern (C) uint gc_setAttr( void* p, uint a ) pure nothrow;
@@ -176,6 +177,16 @@ struct GC
     static void minimize() nothrow /* FIXME pure */
     {
         gc_minimize();
+    }
+
+    /**
+     * Determines whether a collection is currently in progess. This provides
+     * a destructor a way to determine wether it was called by the garbage
+     * collector, or explicitly by user-code.
+     */
+    static bool running() nothrow
+    {
+        return gc_running();
     }
 
 

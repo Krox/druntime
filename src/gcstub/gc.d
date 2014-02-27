@@ -55,6 +55,7 @@ private
         extern (C) void function() gc_disable;
         extern (C) void function() gc_collect;
         extern (C) void function() gc_minimize;
+        extern (C) bool function() gc_running;
 
         extern (C) uint function(void*) gc_getAttr;
         extern (C) uint function(void*, uint) gc_setAttr;
@@ -89,6 +90,7 @@ private
         pthis.gc_disable = &gc_disable;
         pthis.gc_collect = &gc_collect;
         pthis.gc_minimize = &gc_minimize;
+        pthis.gc_running = &gc_running;
 
         pthis.gc_getAttr = &gc_getAttr;
         pthis.gc_setAttr = &gc_setAttr;
@@ -167,6 +169,13 @@ extern (C) void gc_minimize()
     if( proxy is null )
         return;
     return proxy.gc_minimize();
+}
+
+extern (C) bool gc_running()
+{
+    if( proxy is null )
+        return false;
+    return proxy.gc_running();
 }
 
 extern (C) uint gc_getAttr( void* p )

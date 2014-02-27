@@ -1197,6 +1197,16 @@ class GC
         gcx.minimize();
     }
 
+    /**
+     * determine wether a collection is currently in progess
+     */
+    bool running()
+    {
+        gcLock.lock();
+        scope(exit) gcLock.unlock();
+        return gcx.running != 0;
+    }
+
 
     /**
      * Retrieve statistics about garbage collection.
